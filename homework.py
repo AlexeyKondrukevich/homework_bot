@@ -116,7 +116,7 @@ def main():
         try:
             response = get_api_answer(current_timestamp)
             homework = check_response(response)
-            if first_status != homework[0]["status"]:
+            if homework and first_status != homework[0]["status"]:
                 message = parse_status(homework[0])
                 send_message(bot, message)
             current_timestamp = response.get("current_date")
