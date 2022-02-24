@@ -37,8 +37,6 @@ logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(stream=sys.stdout)
 logger.addHandler(handler)
 
-bot = telegram.Bot(token=TELEGRAM_TOKEN)
-
 
 def send_message(bot, message):
     """Отправляет сообщение о новом статусе домашней работы в Telegram чат."""
@@ -78,12 +76,10 @@ def parse_status(homework):
     except Exception as error:
         message = f"{error}: в ответе отсутствует ожидаемый ключ"
         logger.error(message)
-        bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
         raise KeyError("Неизвестный ключ")
     if homework_status not in HOMEWORK_STATUSES:
         message = "В ответе пришёл неизвестный статус домашней работы"
         logger.error(message)
-        bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
         raise KeyError("Неизвестный статус")
     verdict = HOMEWORK_STATUSES[homework_status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
@@ -113,6 +109,7 @@ def main():
     """Основная логика работы бота."""
     if not check_tokens():
         exit()
+    bot = telegram.Bot(token=TELEGRAM_TOKEN)
     current_timestamp = int(time.time())
     while True:
         try:
