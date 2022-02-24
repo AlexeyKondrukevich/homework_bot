@@ -111,12 +111,14 @@ def main():
         exit()
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     current_timestamp = int(time.time())
+    first_status = "reviewing"
     while True:
         try:
             response = get_api_answer(current_timestamp)
             homework = check_response(response)
-            message = parse_status(homework[0])
-            send_message(bot, message)
+            if first_status != homework[0]["status"]:
+                message = parse_status(homework[0])
+                send_message(bot, message)
             current_timestamp = response.get("current_date")
             time.sleep(RETRY_TIME)
 
