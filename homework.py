@@ -79,14 +79,14 @@ def parse_status(homework):
     try:
         homework_name = homework.get("homework_name")
         homework_status = homework.get("status")
-    except Exception as error:
+    except KeyError as error:
         message = f"{error}: в ответе отсутствует ожидаемый ключ"
         logger.error(message)
-        raise KeyError("Неизвестный ключ")
+        raise KeyError(message)
     if homework_status not in HOMEWORK_STATUSES:
         message = "В ответе пришёл неизвестный статус домашней работы"
         logger.error(message)
-        raise KeyError("Неизвестный статус")
+        raise KeyError(message)
     verdict = HOMEWORK_STATUSES[homework_status]
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
 
