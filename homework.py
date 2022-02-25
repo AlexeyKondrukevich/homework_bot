@@ -87,21 +87,13 @@ def parse_status(homework):
 
 def check_tokens():
     """Проверяет доступность переменных окружения."""
-    if PRACTICUM_TOKEN is None:
-        logger.critical(
-            "Отсутствует обязательная переменная окружения PRACTICUM_TOKEN"
-        )
-        return False
-    if TELEGRAM_TOKEN is None:
-        logger.critical(
-            "Отсутствует обязательная переменная окружения TELEGRAM_TOKENN"
-        )
-        return False
-    if TELEGRAM_CHAT_ID is None:
-        logger.critical(
-            "Отсутствует обязательная переменная окружения TELEGRAM_CHAT_ID"
-        )
-        return False
+    list_of_tokens = [PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]
+    for token in list_of_tokens:
+        if token is None:
+            logger.critical(
+                f"Отсутствует обязательная переменная окружения {token}"
+            )
+            return False
     return True
 
 
