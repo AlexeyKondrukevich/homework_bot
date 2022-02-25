@@ -60,8 +60,14 @@ def get_api_answer(current_timestamp):
 
 def check_response(response):
     """Проверяет ответ API сервиса Практикум.Домашка на корректность."""
+    try:
+        response["homeworks"]
+    except KeyError as error:
+        message = f"{error}: в ответе отсутствует ключ 'homeworks'"
+        logger.error(message)
+        raise KeyError(message)
     if response["homeworks"] == []:
-        return {}
+        return []
     if isinstance(response["homeworks"], list):
         return response["homeworks"]
     logger.error("В ответе пришёл неизвестный класс")
