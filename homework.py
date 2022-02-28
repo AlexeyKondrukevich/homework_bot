@@ -113,7 +113,7 @@ def main():
         try:
             response = get_api_answer(current_timestamp)
             homework = check_response(response)
-            if homework and homework[0]["status"] != "reviewing":
+            if homework:
                 message = parse_status(homework[0])
                 send_message(bot, message)
             current_timestamp = response.get("current_date")
