@@ -66,7 +66,7 @@ def check_response(response):
         message = f"{error}: в ответе отсутствует ключ 'homeworks'"
         logger.error(message)
         raise KeyError(message)
-    if response["homeworks"] == []:
+    if not response["homeworks"]:
         return []
     if isinstance(response["homeworks"], list):
         return response["homeworks"]
